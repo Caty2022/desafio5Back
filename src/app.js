@@ -14,8 +14,6 @@ const app = express();
 const exphbs = require("express-handlebars");
 const multer = require("multer");
 const PUERTO = 8080;
-
-
 const productsRouter = require("./routes/products.router.js");
 const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/views.router.js");
@@ -42,16 +40,7 @@ app.use(
   session({
     secret: "secretCoder",
     resave: true,
-    //Resave me permite mantener activa la sesion frente a la inactividad del usuario.
     saveUninitialized: true,
-    //Permite guardar cualquier sesión aún cuando el objeto de sesión no tenga nada para contener.
-
-    //2)File Storage:
-    //store: new fileStore({path:"./src/sessions", ttl:5, retries: 1})
-    //path: ruta donde se va a guardar el archivin de la session.
-    //ttl: time to live! (en segundos)
-    //retries: cantidad de veces que el servidor tratara de leer el archivo.
-
     //3) Utilizando Mongo Storage:
     store: MongoStore.create({
       mongoUrl:

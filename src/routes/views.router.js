@@ -5,9 +5,18 @@ const CartManager = require("../controllers/cart-manager-db.js");
 const productManager = new ProductManager();
 const cartManager = new CartManager();
 
+// Ruta para la vista de perfil y lista de productos combinada
 router.get("/products", async (req, res) => {
   try {
-    const { page = 1, limit = 2 } = req.query;
+    if (!req.session.login) {
+      return res.redirect("/login");
+    }
+
+    // Obtener el usuario de la sesión
+    const user = req.session.user;
+
+    // Obtener la lista de productos (10 productos por página)
+    const { page = 1, limit = 10 } = req.query;
     const productos = await productManager.getProducts({
       page: parseInt(page),
       limit: parseInt(limit),
@@ -19,6 +28,7 @@ router.get("/products", async (req, res) => {
     });
 
     res.render("products", {
+      user: user,
       productos: nuevoArray,
       hasPrevPage: productos.hasPrevPage,
       hasNextPage: productos.hasNextPage,
@@ -59,29 +69,27 @@ router.get("/carts/:cid", async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 });
-
 // Ruta para el formulario de login
 router.get("/login", (req, res) => {
-    if (req.session.login) {
-        return res.redirect("/profile");
-    }
-    res.render("login");
+  if (req.session.login) {
+    return res.redirect("/products");
+  }
+  res.render("login");
 });
 
 // Ruta para el formulario de registro
 router.get("/register", (req, res) => {
-    if (req.session.login) {
-        return res.redirect("/profile");
-    }
-    res.render("register");
+  if (req.session.login) {
+    return res.redirect("/products");
+  }
+  res.render("register");
 });
-
 // Ruta para la vista de perfil
 router.get("/profile", (req, res) => {
-    if (!req.session.login) {
-        return res.redirect("/login");
-    }
-    res.render("profile", { user: req.session.user });
+  if (!req.session.login) {
+    return res.redirect("/login");
+  }
+  res.render("profile", { user: req.session.user });
 });
 
 module.exports = router;
