@@ -16,8 +16,8 @@ const multer = require("multer");
 const PUERTO = 8080;
 
 
-//const productsRouter = require("./routes/products.router.js");
-//const cartsRouter = require("./routes/carts.router.js");
+const productsRouter = require("./routes/products.router.js");
+const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/views.router.js");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -63,8 +63,6 @@ app.use(
 
 
 
-
-
 //Handlebars
 app.engine("handlebars", exphbs.engine());
 app.set("view engine", "handlebars");
@@ -81,8 +79,8 @@ app.post("/upload", upload.array("imagen"), (req, res) => {
 //app.get("/setcookie", (req, res) => {res.cookie("coderCookie", "Mi primera chamba con cookie").send("Cookie seteada!");})
 
 //Rutas:
-//app.use("/api/products", productsRouter);
-//app.use("/api/carts", cartsRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);
 app.use("/api/users", userRouter);
 app.use("/api/sessions", sessionRouter);

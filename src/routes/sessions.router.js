@@ -49,7 +49,7 @@ router.post(
 
     req.session.login = true;
 
-    res.redirect("/profile");
+    res.redirect("/products");
   }
 );
 
@@ -57,13 +57,6 @@ router.get("/faillogin", async (req, res) => {
   res.send({ error: "Fallo todoooooo el login" });
 });
 
-//Logout
 
-router.get("/logout", (req, res) => {
-  if (req.session.login) {
-    req.session.destroy();
-  }
-  res.redirect("/login");
-});
 
 module.exports = router;

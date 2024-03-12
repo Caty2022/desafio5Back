@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-//const ProductManager = require("../controllers/product-manager-db.js");
-//const CartManager = require("../controllers/cart-manager-db.js");
-//const productManager = new ProductManager();
-//const cartManager = new CartManager();
+const ProductManager = require("../controllers/product-manager-db.js");
+const CartManager = require("../controllers/cart-manager-db.js");
+const productManager = new ProductManager();
+const cartManager = new CartManager();
 
-/*router.get("/products", async (req, res) => {
+router.get("/products", async (req, res) => {
   try {
     const { page = 1, limit = 2 } = req.query;
     const productos = await productManager.getProducts({
@@ -58,7 +58,7 @@ router.get("/carts/:cid", async (req, res) => {
     console.error("Error al obtener el carrito", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
-});*/
+});
 
 // Ruta para el formulario de login
 router.get("/login", (req, res) => {
